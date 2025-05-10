@@ -10,14 +10,14 @@ public class ConnectionFormFactory {
 
     private ConnectionFormFactory() {}
 
-    public static ConnectionForm getEnterForm(ConnectionManager connectionManager) {
+    public static ConnectionForm getConnectionForm(ConnectionManager connectionManager) {
 
         NamedField serverUrlField = NamedField.getHorField("Server URL: ", NAME_FIELD_SIZE, FONT);
 
-        var enterForm = new ConnectionForm(connectionManager, serverUrlField);
-        enterForm.getChildren().addAll(
+        var connectionForm = new ConnectionForm(connectionManager, serverUrlField);
+        connectionForm.getChildren().addAll(
                 serverUrlField.getPane(),
-                new ConnectionButton(enterForm));
-        return enterForm;
+                new ConnectionButton(connectionForm));
+        return connectionForm;
     }
 }
