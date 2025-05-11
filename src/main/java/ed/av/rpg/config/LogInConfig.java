@@ -1,14 +1,13 @@
 package ed.av.rpg.config;
 
 import ed.av.rpg.auth.connection.ConnectionData;
-import ed.av.rpg.module.login.LogInForm;
-import ed.av.rpg.module.login.LogInFormFactory;
-import ed.av.rpg.module.login.LogInManager;
+import ed.av.rpg.form.login.LogInForm;
+import ed.av.rpg.form.login.LogInFormFactory;
+import ed.av.rpg.form.login.LogInManager;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
-@Configuration
+//@Configuration
 public class LogInConfig {
 
     @Bean
