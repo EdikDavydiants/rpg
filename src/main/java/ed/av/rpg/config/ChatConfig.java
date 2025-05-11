@@ -1,14 +1,13 @@
 package ed.av.rpg.config;
 
-import ed.av.rpg.module.chat.Chat;
+import ed.av.rpg.form.chat.Chat;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import static ed.av.rpg.enums.MessageType.BOT_MESSAGE;
 import static ed.av.rpg.enums.MessageType.MY_MESSAGE;
 import static ed.av.rpg.enums.MessageType.PLAYER_MESSAGE;
 
-@Configuration
+//@Configuration
 public class ChatConfig {
 
     @Bean

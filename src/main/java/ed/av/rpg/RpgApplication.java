@@ -1,11 +1,12 @@
 package ed.av.rpg;
 
-import ed.av.rpg.module.connection.ConnectionForm;
-import ed.av.rpg.module.login.LogInForm;
-import ed.av.rpg.module.register.RegisterForm;
+import ed.av.rpg.form.common.lazycomponents.containers.LHBox;
+import ed.av.rpg.form.common.lazycomponents.containers.LPane;
+import ed.av.rpg.form.connection.ConnectionForm;
+import ed.av.rpg.form.login.LogInForm;
+import ed.av.rpg.form.register.RegisterForm;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
@@ -17,6 +18,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class RpgApplication extends Application {
 
 	private static ConfigurableApplicationContext springContext;
+	private static LHBox rootForm;
 
 	public static void main(String[] args) {
 
@@ -57,10 +59,13 @@ public class RpgApplication extends Application {
 
 		//var chat = springContext.getBean(Chat.class);
 		var logInForm = springContext.getBean(LogInForm.class);
-		var enterForm = springContext.getBean(ConnectionForm.class);
+		var connectionForm = springContext.getBean(ConnectionForm.class);
 		var registerForm = springContext.getBean(RegisterForm.class);
 
-		primaryStage.setScene(new Scene(new HBox(logInForm, enterForm, registerForm), 1000, 700));
+		rootForm = new LHBox();
+		rootForm.preInitAddAll(logInForm, connectionForm, registerForm);
+		rootForm.initialize();
+		primaryStage.setScene(new Scene(rootForm.getNode(), 1000, 700));
 		primaryStage.show();
 	}
 

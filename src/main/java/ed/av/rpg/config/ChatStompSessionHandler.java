@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Type;
 
 @SuppressWarnings("NullableProblems")
-@Component
+//@Component
 public class ChatStompSessionHandler extends StompSessionHandlerAdapter {
     @Override
     public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
