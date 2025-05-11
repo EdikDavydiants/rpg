@@ -1,6 +1,6 @@
 package ed.av.rpg.form.login;
 
-import ed.av.rpg.form.common.lazycomponents.LButton;
+import ed.av.rpg.form.common.lazycomponents.controls.LButton;
 import javafx.scene.control.Button;
 
 public class LogInButton extends LButton {

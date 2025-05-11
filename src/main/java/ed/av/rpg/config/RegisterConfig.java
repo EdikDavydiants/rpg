@@ -4,11 +4,12 @@ import ed.av.rpg.auth.connection.ConnectionData;
 import ed.av.rpg.form.register.RegisterForm;
 import ed.av.rpg.form.register.RegisterManager;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
 import static ed.av.rpg.form.register.RegisterFormFactory.getRegisterForm;
 
-//@Configuration
+@Configuration
 public class RegisterConfig {
 
     @Bean
@@ -18,8 +19,8 @@ public class RegisterConfig {
     }
 
     @Bean
-    RegisterManager registerManager(RestTemplate restTemplate, ConnectionData connectionData) {
+    RegisterManager registerManager(ConnectionData connectionData) {
 
-        return new RegisterManager(restTemplate, connectionData);
+        return new RegisterManager(new RestTemplate(), connectionData);
     }
 }

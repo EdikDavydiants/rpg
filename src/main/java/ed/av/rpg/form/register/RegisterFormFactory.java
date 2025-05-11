@@ -16,9 +16,9 @@ public class RegisterFormFactory {
         NamedField passwordRaw = NamedField.getHorField("Password: ", NAME_FIELD_SIZE, FONT);
 
         var registerForm = new RegisterForm(registerManager, loginRaw, passwordRaw);
-        registerForm.getChildren().addAll(
-                loginRaw.getPane(),
-                passwordRaw.getPane(),
+        registerForm.preInitAddAll(
+                loginRaw.getContainer(),
+                passwordRaw.getContainer(),
                 new RegisterButton(registerForm));
         return registerForm;
     }

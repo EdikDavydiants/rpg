@@ -17,11 +17,11 @@ public class LogInFormFactory {
         NamedField masterIdRaw = NamedField.getHorField("Master ID: ", NAME_FIELD_SIZE, FONT);
 
         var loginForm = new LogInForm(logInManager, loginRaw, passwordRaw, masterIdRaw);
-        loginForm.getChildren().addAll(
-                loginRaw.getPane(),
-                passwordRaw.getPane(),
-                masterIdRaw.getPane());
-                //new LogInButton(loginForm));
+        loginForm.preInitAddAll(
+                loginRaw.getContainer(),
+                passwordRaw.getContainer(),
+                masterIdRaw.getContainer(),
+                new LogInButton(loginForm));
         return loginForm;
     }
 }

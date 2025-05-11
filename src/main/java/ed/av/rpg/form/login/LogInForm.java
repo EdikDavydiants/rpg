@@ -2,11 +2,11 @@ package ed.av.rpg.form.login;
 
 import ed.av.rpg.auth.model.dto.LogInDto;
 import ed.av.rpg.form.common.NamedField;
-import javafx.scene.layout.VBox;
+import ed.av.rpg.form.common.lazycomponents.containers.LVBox;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class LogInForm extends VBox {
+public class LogInForm extends LVBox {
 
     private final LogInManager logInManager;
     private final NamedField loginField;

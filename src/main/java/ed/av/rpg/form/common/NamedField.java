@@ -1,50 +1,60 @@
 package ed.av.rpg.form.common;
 
+import ed.av.rpg.form.common.lazycomponents.LContainer;
+import ed.av.rpg.form.common.lazycomponents.controls.LLabel;
+import ed.av.rpg.form.common.lazycomponents.controls.LTextField;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import lombok.Getter;
 
 public class NamedField implements EnterField {
 
-    private final TextField valueField;
+    private final LTextField valueField;
 
     @Getter
-    private final Pane pane;
+    private final LContainer<?> container;
 
-    private NamedField(String fieldName, double wSize, Font font, Pane pane) {
+    private NamedField(String fieldName, double wSize, Font font, LContainer<?> container) {
         super();
 
-        this.pane = pane;
-        Text nameField = new Text(fieldName);
-        nameField.setFont(font);
-        nameField.prefWidth(wSize / 2);
+        this.container = container;
 
-        valueField = new TextField();
-        valueField.prefWidth(wSize / 2);
+        valueField = new LTextField(() -> {
+            TextField tf = new TextField();
+            tf.prefWidth(wSize / 2);
+            return tf;
+        });
 
-        pane.getChildren().add(nameField);
-        pane.getChildren().add(valueField);
+        container.preInitAddAll(new LLabel(() -> {
+            Label l = new Label(fieldName);
+            l.setFont(font);
+            l.prefWidth(wSize / 2);
+            return l;
+        }), valueField);
     }
 
     public static NamedField getVertField(String fieldName, double wSize, Font font) {
-        return new NamedField(fieldName, wSize, font, new VBox());
+
+        LContainer<VBox> vBox = new LContainer<>(VBox::new);
+        return new NamedField(fieldName, wSize, font, vBox);
     }
 
     public static NamedField getHorField(String fieldName, double wSize, Font font) {
-        return new NamedField(fieldName, wSize, font, new HBox());
+
+        LContainer<HBox> hBox = new LContainer<>(HBox::new);
+        return new NamedField(fieldName, wSize, font, hBox);
     }
 
     @Override
     public String getValue() {
-        return valueField.getText();
+        return valueField.getNode().getText();
     }
 
     @Override
     public TextField getValueField() {
-        return valueField;
+        return valueField.getNode();
     }
 }

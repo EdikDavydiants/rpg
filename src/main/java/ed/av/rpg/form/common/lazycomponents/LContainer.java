@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class LContainer<T extends Pane> extends LNode<T> {
+public class LContainer<T extends Pane> extends LNode<T> {
 
     private final List<LNode<?>> children = new ArrayList<>();
 

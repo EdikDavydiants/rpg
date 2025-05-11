@@ -15,8 +15,8 @@ public class ConnectionFormFactory {
         NamedField serverUrlField = NamedField.getHorField("Server URL: ", NAME_FIELD_SIZE, FONT);
 
         var connectionForm = new ConnectionForm(connectionManager, serverUrlField);
-        connectionForm.getChildren().addAll(
-                serverUrlField.getPane(),
+        connectionForm.preInitAddAll(
+                serverUrlField.getContainer(),
                 new ConnectionButton(connectionForm));
         return connectionForm;
     }

@@ -6,8 +6,9 @@ import ed.av.rpg.form.connection.ConnectionFormFactory;
 import ed.av.rpg.form.connection.ConnectionManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-//@Configuration
+@Configuration
 @RequiredArgsConstructor
 public class ConnectionConfig {
 
