@@ -1,101 +1,108 @@
 package ed.av.rpg.form.chat;
 
+import ed.av.rpg.config.ChatSession;
+import ed.av.rpg.event.ChatMessageEvent;
+import ed.av.rpg.form.common.lazycomponents.containers.LVBox;
+import ed.av.rpg.form.common.lazycomponents.controls.LScrollPane;
+import ed.av.rpg.form.common.lazycomponents.controls.LTextArea;
 import javafx.application.Platform;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import ed.av.rpg.GeneralUtils;
 import ed.av.rpg.auth.connection.ConnectionData;
 import ed.av.rpg.enums.MessageType;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.context.event.EventListener;
+import org.springframework.messaging.simp.stomp.StompSession;
 
 import java.util.Arrays;
+import java.util.concurrent.CompletableFuture;
 
-import static java.util.stream.Stream.of;
-import static ed.av.rpg.enums.MessageType.MY_MESSAGE;
+import static ed.av.rpg.enums.MessageType.PLAYER_MESSAGE;
 
-public class Chat extends VBox {
+public class Chat extends LVBox {
 
     public static final int HEIGHT = 500;
     public static final int WIDTH = 300;
-    private final VBox messagesArea;
-    private final TextArea textArea;
-    private final ScrollPane scrollPane;
+    private final LVBox messagesArea;
+    private final LTextArea textArea;
+    private final LScrollPane scrollPane;
 
-    @Autowired
-    private RestTemplate restTemplate;
-    @Autowired
-    private ConnectionData connectionData;
+    private final ConnectionData connection;
+    private final ChatSession chatSession;
 
-    public Chat() {
-
-        setPrefWidth(WIDTH + 30.);
-        setPrefHeight(HEIGHT + 50.);
-
-        scrollPane = new ScrollPane();
-        messagesArea = createMessageArea();
-        textArea = createTextArea();
-    }
-
-    private VBox createMessageArea() {
-
-        var messagesArea = new VBox();
-        scrollPane.setFitToWidth(true);
-        scrollPane.setMaxHeight(HEIGHT);
-        scrollPane.setPrefViewportHeight(HEIGHT);
-        scrollPane.setPrefViewportWidth(WIDTH);
-        scrollPane.setContent(messagesArea);
-        messagesArea.setSpacing(10.);
-        getChildren().add(scrollPane);
-        return messagesArea;
-    }
-
-    private TextArea createTextArea() {
-        final var textArea = new TextArea();
-        textArea.setFont(new Font(15));
-        textArea.setOnKeyPressed(event -> {
-            if(event.getCode() == KeyCode.ENTER) {
-                byte[] bytes = textArea.getText().getBytes();
-                byte[] newByteArray = Arrays.copyOf(bytes, bytes.length - 1);
-                String text = new String(newByteArray);
-                addMessage(MY_MESSAGE, text);
-                sendMessage(text);
-                textArea.setText("");
-                new Thread(() -> {
-                    GeneralUtils.sleep(50);
-                    scrollPane.setVvalue(1.0);
-                }).start();
-            }
+    public Chat(ConnectionData connectionData, ChatSession chatSession) {
+        super(() -> {
+            var vb = new VBox();
+            vb.setPrefWidth(WIDTH + 30.);
+            vb.setPrefHeight(HEIGHT + 50.);
+            return vb;
         });
-        textArea.setPrefWidth(WIDTH);
-        textArea.setPrefHeight(50.);
-        getChildren().add(textArea);
-        return textArea;
+
+        this.connection = connectionData;
+        this.chatSession = chatSession;
+
+        messagesArea = new LVBox(() -> {
+            var messagesArea = new VBox();
+            messagesArea.setSpacing(10.);
+            return messagesArea;
+        });
+
+        scrollPane = new LScrollPane(() -> {
+            var sp = new ScrollPane();
+            sp.setFitToWidth(true);
+            sp.setMaxHeight(HEIGHT);
+            sp.setPrefViewportHeight(HEIGHT);
+            sp.setPrefViewportWidth(WIDTH);
+            return sp;
+        });
+        scrollPane.setContent(messagesArea);
+
+        textArea = new LTextArea(() -> {
+            final var textArea = new TextArea();
+            textArea.setFont(new Font(15));
+            textArea.setOnKeyPressed(event -> {
+                if(event.getCode() == KeyCode.ENTER) {
+                    byte[] bytes = textArea.getText().getBytes();
+                    byte[] newByteArray = Arrays.copyOf(bytes, bytes.length - 1);
+                    String text = new String(newByteArray);
+                    //addMessage(MY_MESSAGE, text);
+                    sendMessage(text);
+                    textArea.setText("");
+                    new Thread(() -> {
+                        GeneralUtils.sleep(50);
+                        scrollPane.setVValue(1.0);
+                    }).start();
+                }
+            });
+            textArea.setPrefWidth(WIDTH);
+            textArea.setPrefHeight(50.);
+            return textArea;
+        });
+
+        preInitAddAll(scrollPane, textArea);
+    }
+
+    @EventListener
+    public void handleChatMessage(ChatMessageEvent event) {
+        addMessage(PLAYER_MESSAGE, event.text());
     }
 
     public void addMessage(MessageType messageType, String text) {
-        var message = new Message();
+        var message = new ChatMessage();
         message.addMessage(messageType, text);
-        Platform.runLater(() -> messagesArea.getChildren().add(message));
+        Platform.runLater(() -> messagesArea.postInitAddAll(message));
     }
 
     private void sendMessage(String text) {
-
-        String uri = UriComponentsBuilder
-                .fromUriString(getMasterUrl() + "/chat/messages")
-                .encode()
-                .toUriString();
-        restTemplate.postForLocation(uri, text);
+        StompSession session = chatSession.getSession();
+        if(session != null) {
+            session.send("/app/chat", text);
+        }
     }
-
-    private String getMasterUrl() {
-        //return "http://" + connectionData.getMasterIP() + ":8080";
-        return "https://lawlessly-infinite-sylph.cloudpub.ru/";
-    }
-
-
 }

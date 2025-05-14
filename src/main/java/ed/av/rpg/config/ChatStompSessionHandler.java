@@ -1,5 +1,8 @@
 package ed.av.rpg.config;
 
+import ed.av.rpg.event.ChatMessageEvent;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
@@ -9,11 +12,18 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Type;
 
 @SuppressWarnings("NullableProblems")
-//@Component
+@Component
+@RequiredArgsConstructor
 public class ChatStompSessionHandler extends StompSessionHandlerAdapter {
+
+    private final ApplicationEventPublisher eventPublisher;
+    private final ChatSession chatSession;
+
     @Override
     public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
         System.out.println("Подключено к серверу WebSocket!");
+        session.subscribe("/topic/messages", this);
+        chatSession.setSession(session);
     }
 
     @Override
@@ -23,11 +33,11 @@ public class ChatStompSessionHandler extends StompSessionHandlerAdapter {
 
     @Override
     public Type getPayloadType(StompHeaders headers) {
-        return String.class;  // Ожидаем строковые сообщения
+        return String.class;
     }
 
     @Override
     public void handleFrame(StompHeaders headers, Object payload) {
-        System.out.println("Получено сообщение: " + payload);  // Принимаем сообщения из /topic/messages
+        eventPublisher.publishEvent(new ChatMessageEvent(payload.toString()));
     }
 }

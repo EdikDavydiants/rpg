@@ -29,12 +29,10 @@ public class LContainer<T extends Pane> extends LNode<T> {
     }
 
     public void preInitAddAll(LNode<?>... childs) {
-
         children.addAll(Arrays.asList(childs));
     }
 
     public void postInitAddAll(Node... childs) {
-
         getNode().getChildren().addAll(Arrays.asList(childs));
     }
 }
