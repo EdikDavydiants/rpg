@@ -1,6 +1,7 @@
 package ed.av.rpg.config;
 
 import ed.av.rpg.auth.connection.ConnectionData;
+import ed.av.rpg.auth.service.AuthService;
 import ed.av.rpg.form.register.RegisterForm;
 import ed.av.rpg.form.register.RegisterManager;
 import org.springframework.context.annotation.Bean;
@@ -19,8 +20,8 @@ public class RegisterConfig {
     }
 
     @Bean
-    RegisterManager registerManager(ConnectionData connectionData) {
+    RegisterManager registerManager(ConnectionData connectionData, AuthService authService) {
 
-        return new RegisterManager(new RestTemplate(), connectionData);
+        return new RegisterManager(connectionData, authService);
     }
 }
