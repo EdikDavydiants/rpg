@@ -11,8 +11,8 @@ import static javafx.scene.paint.Color.LIGHTBLUE;
 import static javafx.scene.paint.Color.LIGHTGREEN;
 import static javafx.scene.paint.Color.LIGHTSKYBLUE;
 
-public class Message extends AnchorPane {
-    public Message() {
+public class ChatMessage extends AnchorPane {
+    public ChatMessage() {
 
         setPrefWidth(Chat.WIDTH);
         setPrefHeight(100);
