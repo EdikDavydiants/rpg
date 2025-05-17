@@ -13,7 +13,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public void registerNewUser(String username, String password) {
+    public boolean registerNewUser(String username, String password) {
         String passwordHash = passwordEncoder.encode(password);
         User user = User.builder()
                 .username(username)
@@ -21,6 +21,10 @@ public class AuthService {
                 .isActive(true)
                 .build();
 
+        if (userRepository.existsByUsername(username)) {
+            return false;
+        }
         userRepository.save(user);
+        return true;
     }
 }

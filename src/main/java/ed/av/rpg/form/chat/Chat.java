@@ -1,6 +1,6 @@
 package ed.av.rpg.form.chat;
 
-import ed.av.rpg.config.ChatSession;
+import ed.av.rpg.config.MainSession;
 import ed.av.rpg.event.ChatMessageEvent;
 import ed.av.rpg.form.common.lazycomponents.containers.LVBox;
 import ed.av.rpg.form.common.lazycomponents.controls.LScrollPane;
@@ -9,10 +9,7 @@ import javafx.application.Platform;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import ed.av.rpg.GeneralUtils;
 import ed.av.rpg.auth.connection.ConnectionData;
@@ -21,7 +18,6 @@ import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.stomp.StompSession;
 
 import java.util.Arrays;
-import java.util.concurrent.CompletableFuture;
 
 import static ed.av.rpg.enums.MessageType.PLAYER_MESSAGE;
 
@@ -34,9 +30,9 @@ public class Chat extends LVBox {
     private final LScrollPane scrollPane;
 
     private final ConnectionData connection;
-    private final ChatSession chatSession;
+    private final MainSession mainSession;
 
-    public Chat(ConnectionData connectionData, ChatSession chatSession) {
+    public Chat(ConnectionData connectionData, MainSession mainSession) {
         super(() -> {
             var vb = new VBox();
             vb.setPrefWidth(WIDTH + 30.);
@@ -45,7 +41,7 @@ public class Chat extends LVBox {
         });
 
         this.connection = connectionData;
-        this.chatSession = chatSession;
+        this.mainSession = mainSession;
 
         messagesArea = new LVBox(() -> {
             var messagesArea = new VBox();
@@ -71,7 +67,6 @@ public class Chat extends LVBox {
                     byte[] bytes = textArea.getText().getBytes();
                     byte[] newByteArray = Arrays.copyOf(bytes, bytes.length - 1);
                     String text = new String(newByteArray);
-                    //addMessage(MY_MESSAGE, text);
                     sendMessage(text);
                     textArea.setText("");
                     new Thread(() -> {
@@ -100,9 +95,9 @@ public class Chat extends LVBox {
     }
 
     private void sendMessage(String text) {
-        StompSession session = chatSession.getSession();
+        StompSession session = mainSession.getSession();
         if(session != null) {
-            session.send("/app/chat", text);
+            session.send("/app/chat", new ChatMessageEvent(text));
         }
     }
 }

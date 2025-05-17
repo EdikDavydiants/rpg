@@ -1,8 +1,18 @@
 package ed.av.rpg.auth.model.dto;
 
-public record RegisterDto(
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-        String login,
-        String password
-) {
+import java.io.Serializable;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class RegisterDto implements Serializable {
+    private String sessionId;
+    private String login;
+    private String password;
 }

@@ -3,6 +3,8 @@ package ed.av.rpg.form.common;
 import ed.av.rpg.form.common.lazycomponents.LContainer;
 import ed.av.rpg.form.common.lazycomponents.controls.LLabel;
 import ed.av.rpg.form.common.lazycomponents.controls.LTextField;
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
@@ -17,7 +19,8 @@ public class NamedField implements EnterField {
     @Getter
     private final LContainer<?> container;
 
-    private NamedField(String fieldName, double wSize, Font font, LContainer<?> container) {
+    public NamedField(String fieldName, double wSize, Font font, LContainer<?> container,
+                       TextListener listener) {
         super();
 
         this.container = container;
@@ -25,6 +28,11 @@ public class NamedField implements EnterField {
         valueField = new LTextField(() -> {
             TextField tf = new TextField();
             tf.prefWidth(wSize / 2);
+            if (listener != null) {
+                tf.textProperty().addListener((observable, oldText, newText) -> {
+                    listener.textChanged(getValueField(), oldText, newText);
+                });
+            }
             return tf;
         });
 
@@ -36,16 +44,26 @@ public class NamedField implements EnterField {
         }), valueField);
     }
 
-    public static NamedField getVertField(String fieldName, double wSize, Font font) {
+    private NamedField(String fieldName, double wSize, Font font, LContainer<?> container) {
+        this(fieldName, wSize, font, container, null);
+    }
 
-        LContainer<VBox> vBox = new LContainer<>(VBox::new);
-        return new NamedField(fieldName, wSize, font, vBox);
+    public static NamedField getVertField(String fieldName, double wSize, Font font) {
+        return new NamedField(fieldName, wSize, font, new LContainer<>(VBox::new));
     }
 
     public static NamedField getHorField(String fieldName, double wSize, Font font) {
+        return new NamedField(fieldName, wSize, font, new LContainer<>(HBox::new));
+    }
 
-        LContainer<HBox> hBox = new LContainer<>(HBox::new);
-        return new NamedField(fieldName, wSize, font, hBox);
+    public static NamedField getVertFieldWithListener(String fieldName, double wSize, Font font,
+                                                      TextListener textChangeListener) {
+        return new NamedField(fieldName, wSize, font, new LContainer<>(VBox::new), textChangeListener);
+    }
+
+    public static NamedField getHorFieldWithListener(String fieldName, double wSize, Font font,
+                                                     TextListener textChangeListener) {
+        return new NamedField(fieldName, wSize, font, new LContainer<>(HBox::new), textChangeListener);
     }
 
     @Override
@@ -56,5 +74,14 @@ public class NamedField implements EnterField {
     @Override
     public TextField getValueField() {
         return valueField.getNode();
+    }
+
+    public void clearField() {
+        Platform.runLater(() -> valueField.getNode().setText(""));
+    }
+
+    @FunctionalInterface
+    public interface TextListener {
+        void textChanged(TextField textField, String oldText, String newText);
     }
 }

@@ -8,15 +8,17 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 public class LogInManager {
 
-    private final RestTemplate restTemplate;
-    private final ConnectionData connectionData;
+    private final LogInForm form;
 
     public void processData(LogInDto logInData) {
 
     }
 
-    private String findOutMyIP() {
+    public void openForm() {
+        form.getNode().setVisible(true);
+    }
 
-        return restTemplate.getForObject("https://api.ipify.org?format=text", String.class);
+    public void closeForm() {
+        form.getNode().setVisible(false);
     }
 }

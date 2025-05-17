@@ -2,6 +2,7 @@ package ed.av.rpg.form.login;
 
 import ed.av.rpg.form.common.NamedField;
 import javafx.scene.text.Font;
+import org.springframework.context.ApplicationEventPublisher;
 
 public class LogInFormFactory {
 
@@ -10,17 +11,15 @@ public class LogInFormFactory {
 
     private LogInFormFactory() {}
 
-    public static LogInForm getLogInForm(LogInManager logInManager) {
+    public static LogInForm getLogInForm(ApplicationEventPublisher eventPublisher) {
 
         NamedField loginRaw = NamedField.getHorField("Login: ", NAME_FIELD_SIZE, FONT);
         NamedField passwordRaw = NamedField.getHorField("Password: ", NAME_FIELD_SIZE, FONT);
-        NamedField masterIdRaw = NamedField.getHorField("Master ID: ", NAME_FIELD_SIZE, FONT);
 
-        var loginForm = new LogInForm(logInManager, loginRaw, passwordRaw, masterIdRaw);
+        var loginForm = new LogInForm(loginRaw, passwordRaw, eventPublisher);
         loginForm.preInitAddAll(
                 loginRaw.getContainer(),
                 passwordRaw.getContainer(),
-                masterIdRaw.getContainer(),
                 new LogInButton(loginForm));
         return loginForm;
     }
