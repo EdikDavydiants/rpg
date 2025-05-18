@@ -3,10 +3,9 @@ package ed.av.rpg.form.register;
 import ed.av.rpg.Logger;
 import ed.av.rpg.auth.model.dto.RegisterDto;
 import ed.av.rpg.config.MainSession;
-import ed.av.rpg.util.HeaderBuilder;
+import ed.av.rpg.util.HeadersBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
-import org.springframework.http.MediaType;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
 
@@ -33,12 +32,15 @@ public class RegisterManager {
         } else if (registerEventDto.password().length() > 20) {
             logger.log("Пароль должен содержать менее 21 символа");
         } else {
-            session.send(
-                    HeaderBuilder.createHeader("/app/register"),
-                    new RegisterDto(
-                            session.getSessionId(),
-                            registerEventDto.login(),
-                            registerEventDto.password()));
+            var registerDto = new RegisterDto(
+                    session.getSessionId(),
+                    registerEventDto.login(),
+                    registerEventDto.password());
+            StompHeaders headers = HeadersBuilder.builder()
+                    .destination("/app/register")
+                    .addHeader("session-id", session.getSessionId())
+                    .build();
+            session.send(headers, registerDto);
         }
     }
 

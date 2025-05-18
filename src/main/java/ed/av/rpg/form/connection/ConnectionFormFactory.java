@@ -22,7 +22,7 @@ public class ConnectionFormFactory {
                     String webSocketProtocol = "wss:";
                     if(newText.startsWith(httpProtocol)) {
                         String serverUrl = newText.replaceFirst(httpProtocol, webSocketProtocol);
-                        Platform.runLater(() -> textField.setText(serverUrl));
+                        Platform.runLater(() -> textField.setText(serverUrl + "ws"));
                     }
                 });
 

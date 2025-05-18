@@ -18,7 +18,7 @@ public class ConnectionConfig {
     }
 
     @Bean
-    ConnectionManager connectionManager(ConnectionData connectionData, ChatStompSessionHandler handler) {
+    ConnectionManager connectionManager(ConnectionData connectionData, MainStompSessionHandler handler) {
 
         return new ConnectionManager(connectionData, handler);
     }

@@ -17,7 +17,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class RpgApplication extends Application {
 
 	private static ConfigurableApplicationContext springContext;
-	private static LHBox rootForm;
 
 	public static void main(String[] args) {
 
@@ -41,7 +40,7 @@ public class RpgApplication extends Application {
 		var registerForm = springContext.getBean(RegisterForm.class);
 
 
-		rootForm = new LHBox();
+		LHBox rootForm = new LHBox();
 		rootForm.preInitAddAll(connectionForm, registerForm, chat);
 		rootForm.initialize();
 		primaryStage.setScene(new Scene(rootForm.getNode(), 1000, 700));
