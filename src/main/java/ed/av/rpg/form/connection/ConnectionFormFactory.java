@@ -1,6 +1,7 @@
 package ed.av.rpg.form.connection;
 
 import ed.av.rpg.form.common.NamedField;
+import javafx.application.Platform;
 import javafx.scene.text.Font;
 
 public class ConnectionFormFactory {
@@ -12,7 +13,18 @@ public class ConnectionFormFactory {
 
     public static ConnectionForm getConnectionForm(ConnectionManager connectionManager) {
 
-        NamedField serverUrlField = NamedField.getHorField("Server URL: ", NAME_FIELD_SIZE, FONT);
+        NamedField serverUrlField = NamedField.getVertFieldWithListener(
+                "Server URL: ",
+                NAME_FIELD_SIZE,
+                FONT,
+                (textField, oldText, newText) ->  {
+                    String httpProtocol = "https:";
+                    String webSocketProtocol = "wss:";
+                    if(newText.startsWith(httpProtocol)) {
+                        String serverUrl = newText.replaceFirst(httpProtocol, webSocketProtocol);
+                        Platform.runLater(() -> textField.setText(serverUrl + "ws"));
+                    }
+                });
 
         var connectionForm = new ConnectionForm(connectionManager, serverUrlField);
         connectionForm.preInitAddAll(

@@ -2,9 +2,9 @@ package ed.av.rpg.form.connection;
 
 import ed.av.rpg.auth.connection.ConnectionData;
 import ed.av.rpg.auth.model.dto.ConnectionDto;
-import ed.av.rpg.config.ChatStompSessionHandler;
+import ed.av.rpg.config.MainStompSessionHandler;
 import lombok.RequiredArgsConstructor;
-import org.springframework.messaging.converter.StringMessageConverter;
+import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.web.socket.client.WebSocketClient;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
@@ -13,7 +13,7 @@ import org.springframework.web.socket.messaging.WebSocketStompClient;
 public class ConnectionManager {
 
     private final ConnectionData connectionData;
-    private final ChatStompSessionHandler handler;
+    private final MainStompSessionHandler handler;
 
     public void processData(ConnectionDto connectionDto) {
         var serverUrl = connectionDto.serverUrl();
@@ -21,7 +21,7 @@ public class ConnectionManager {
 
         WebSocketClient webSocketClient = new StandardWebSocketClient();
         WebSocketStompClient stompClient = new WebSocketStompClient(webSocketClient);
-        stompClient.setMessageConverter(new StringMessageConverter());
+        stompClient.setMessageConverter(new MappingJackson2MessageConverter());
 
         stompClient.connectAsync(serverUrl, handler);
     }

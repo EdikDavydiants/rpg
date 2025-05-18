@@ -1,20 +1,19 @@
 package ed.av.rpg.form.register;
 
-import ed.av.rpg.auth.model.dto.RegisterDto;
 import ed.av.rpg.form.common.NamedField;
 import ed.av.rpg.form.common.lazycomponents.containers.LVBox;
-import javafx.scene.layout.VBox;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 
 @RequiredArgsConstructor
 public class RegisterForm extends LVBox {
 
-    private final RegisterManager registerManager;
     private final NamedField loginField;
     private final NamedField passwordField;
+    private final ApplicationEventPublisher eventPublisher;
 
-    public RegisterDto getRegisterData() {
-        return new RegisterDto(getLogin(), getPassword());
+    public RegisterEventDto getRegisterData() {
+        return new RegisterEventDto(getLogin(), getPassword());
     }
 
     public String getLogin() {
@@ -26,6 +25,11 @@ public class RegisterForm extends LVBox {
     }
 
     public void onClick() {
-        registerManager.processData(getRegisterData());
+        eventPublisher.publishEvent(getRegisterData());
+    }
+
+    public void clearFields() {
+        loginField.clearField();
+        passwordField.clearField();
     }
 }

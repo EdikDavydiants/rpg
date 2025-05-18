@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.messaging.simp.stomp.StompSession;
 
-public class ChatSession {
+public class MainSession {
 
     @Setter
     @Getter
