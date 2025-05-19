@@ -4,7 +4,6 @@ import ed.av.rpg.form.common.lazycomponents.LContainer;
 import ed.av.rpg.form.common.lazycomponents.controls.LLabel;
 import ed.av.rpg.form.common.lazycomponents.controls.LTextField;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
