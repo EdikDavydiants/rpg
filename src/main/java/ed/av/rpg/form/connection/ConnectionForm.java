@@ -3,7 +3,6 @@ package ed.av.rpg.form.connection;
 import ed.av.rpg.auth.model.dto.ConnectionDto;
 import ed.av.rpg.form.common.NamedField;
 import ed.av.rpg.form.common.lazycomponents.containers.LVBox;
-import javafx.scene.layout.VBox;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

@@ -1,7 +1,7 @@
 package ed.av.rpg.form.register;
 
 import ed.av.rpg.Logger;
-import ed.av.rpg.auth.model.dto.RegisterDto;
+import ed.av.rpg.auth.model.dto.request.RegisterDto;
 import ed.av.rpg.config.MainSession;
 import ed.av.rpg.util.HeadersBuilder;
 import lombok.RequiredArgsConstructor;

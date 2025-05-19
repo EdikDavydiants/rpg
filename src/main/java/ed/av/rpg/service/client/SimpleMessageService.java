@@ -1,5 +1,6 @@
-package ed.av.rpg.clientservice;
+package ed.av.rpg.service.client;
 
+import ed.av.rpg.Logger;
 import ed.av.rpg.auth.model.dto.SimpleMessageDto;
 import ed.av.rpg.auth.model.dto.Topical;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,7 @@ public class SimpleMessageService extends ClientService{
     @Override
     public void processTopicalDto(Topical topical) {
         var simpleMessageDto = castToChildDto(topical);
-        System.out.println(simpleMessageDto.getMessage());
+        Logger.log(simpleMessageDto.getMessage());
     }
 
     @Override

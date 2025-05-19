@@ -16,7 +16,7 @@ public class LogInConfig {
     }
 
     @Bean
-    LogInManager logInManager(LogInForm logInForm) {
-        return new LogInManager(logInForm);
+    LogInManager logInManager(LogInForm logInForm, MainSession session) {
+        return new LogInManager(logInForm, session);
     }
 }

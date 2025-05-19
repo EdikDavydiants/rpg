@@ -1,14 +1,13 @@
 package ed.av.rpg.auth.controller;
 
-import ed.av.rpg.auth.model.dto.RegisterDto;
+import ed.av.rpg.auth.model.dto.request.RegisterDto;
 import ed.av.rpg.auth.model.dto.SimpleMessageDto;
-import ed.av.rpg.auth.service.AuthService;
+import ed.av.rpg.service.server.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.stereotype.Controller;
 
 import java.util.HashMap;
@@ -22,7 +21,7 @@ public class RegisterController {
     private final SimpMessagingTemplate messagingTemplate;
 
     @MessageMapping("/register")
-    public void register(RegisterDto registerDto) {
+    public void register(@Header("session-id") String sessionId, @Payload RegisterDto registerDto) {
         boolean isSuccess = authService.registerNewUser(registerDto.getLogin(), registerDto.getPassword());
         String message;
         if (isSuccess) {
@@ -32,6 +31,7 @@ public class RegisterController {
         }
         Map<String, Object> headers = new HashMap<>();
         headers.put("simple-class-name", SimpleMessageDto.class.getSimpleName());
+        headers.put("session-id", sessionId);
         messagingTemplate.convertAndSend("/topic/common", new SimpleMessageDto(message), headers);
     }
 }

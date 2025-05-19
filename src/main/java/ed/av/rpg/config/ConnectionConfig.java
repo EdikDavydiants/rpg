@@ -1,5 +1,6 @@
 package ed.av.rpg.config;
 
+import ed.av.rpg.auth.connection.AuthenticationData;
 import ed.av.rpg.auth.connection.ConnectionData;
 import ed.av.rpg.form.connection.ConnectionForm;
 import ed.av.rpg.form.connection.ConnectionFormFactory;
@@ -18,14 +19,17 @@ public class ConnectionConfig {
     }
 
     @Bean
-    ConnectionManager connectionManager(ConnectionData connectionData, MainStompSessionHandler handler) {
+    AuthenticationData authenticationData() {
+        return new AuthenticationData();
+    }
 
+    @Bean
+    ConnectionManager connectionManager(ConnectionData connectionData, MainStompSessionHandler handler) {
         return new ConnectionManager(connectionData, handler);
     }
 
     @Bean
     ConnectionForm connectionForm(ConnectionManager connectionManager) {
-
         return ConnectionFormFactory.getConnectionForm(connectionManager);
     }
 }

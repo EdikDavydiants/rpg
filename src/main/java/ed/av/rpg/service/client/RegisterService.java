@@ -1,6 +1,6 @@
-package ed.av.rpg.clientservice;
+package ed.av.rpg.service.client;
 
-import ed.av.rpg.auth.model.dto.RegisterDto;
+import ed.av.rpg.auth.model.dto.request.RegisterDto;
 import ed.av.rpg.auth.model.dto.Topical;
 import org.springframework.stereotype.Service;
 

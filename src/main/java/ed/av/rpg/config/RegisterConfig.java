@@ -1,7 +1,6 @@
 package ed.av.rpg.config;
 
 import ed.av.rpg.Logger;
-import ed.av.rpg.auth.connection.ConnectionData;
 import ed.av.rpg.form.register.RegisterForm;
 import ed.av.rpg.form.register.RegisterManager;
 import org.springframework.context.ApplicationEventPublisher;
