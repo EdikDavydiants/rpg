@@ -1,0 +1,29 @@
+package ed.av.rpg.auth.controller;
+
+import ed.av.rpg.auth.model.dto.request.LogInDtoRequest;
+import ed.av.rpg.auth.model.dto.request.RegisterDtoRequest;
+import ed.av.rpg.auth.service.server.AuthService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.messaging.handler.annotation.Header;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.stereotype.Controller;
+
+import static ed.av.rpg.util.StringConstants.Headers.SESSION_ID_HEADER_KEY;
+
+@Controller
+@RequiredArgsConstructor
+public class AuthController {
+
+    private final AuthService authService;
+
+    @MessageMapping("/login")
+    public void logIn(@Header(SESSION_ID_HEADER_KEY) String sessionId, @Payload LogInDtoRequest logInDtoRequest) {
+        authService.logInUser(sessionId, logInDtoRequest.getLogin(), logInDtoRequest.getPassword());
+    }
+
+    @MessageMapping("/register")
+    public void register(@Header(SESSION_ID_HEADER_KEY) String sessionId, @Payload RegisterDtoRequest registerDtoRequest) {
+        authService.registerNewUser(sessionId, registerDtoRequest.getLogin(), registerDtoRequest.getPassword());
+    }
+}

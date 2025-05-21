@@ -3,7 +3,7 @@ package ed.av.rpg.form.login;
 import ed.av.rpg.config.MainSession;
 import ed.av.rpg.util.HeadersBuilder;
 import lombok.RequiredArgsConstructor;
-import ed.av.rpg.auth.model.dto.request.LogInDto;
+import ed.av.rpg.auth.model.dto.request.LogInDtoRequest;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 
@@ -15,7 +15,7 @@ public class LogInManager {
 
     @EventListener
     public void processData(LogInEventDto logInEventDto) {
-        LogInDto logInDto = LogInDto.builder()
+        LogInDtoRequest logInDtoRequest = LogInDtoRequest.builder()
                 .login(logInEventDto.login())
                 .password(logInEventDto.password())
                 .build();
@@ -23,7 +23,7 @@ public class LogInManager {
                 .destination("/app/login")
                 .addHeader("session-id", session.getSession().getSessionId())
                 .build();
-        session.getSession().send(headers, logInDto);
+        session.getSession().send(headers, logInDtoRequest);
     }
 
     public void openForm() {

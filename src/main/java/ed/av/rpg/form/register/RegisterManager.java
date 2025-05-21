@@ -1,7 +1,7 @@
 package ed.av.rpg.form.register;
 
 import ed.av.rpg.Logger;
-import ed.av.rpg.auth.model.dto.request.RegisterDto;
+import ed.av.rpg.auth.model.dto.request.RegisterDtoRequest;
 import ed.av.rpg.config.MainSession;
 import ed.av.rpg.util.HeadersBuilder;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +32,7 @@ public class RegisterManager {
         } else if (registerEventDto.password().length() > 20) {
             logger.log("Пароль должен содержать менее 21 символа");
         } else {
-            var registerDto = new RegisterDto(
+            var registerDto = new RegisterDtoRequest(
                     session.getSessionId(),
                     registerEventDto.login(),
                     registerEventDto.password());

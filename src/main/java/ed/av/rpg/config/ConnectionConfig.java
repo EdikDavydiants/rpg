@@ -6,6 +6,7 @@ import ed.av.rpg.form.connection.ConnectionForm;
 import ed.av.rpg.form.connection.ConnectionFormFactory;
 import ed.av.rpg.form.connection.ConnectionManager;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -24,12 +25,13 @@ public class ConnectionConfig {
     }
 
     @Bean
-    ConnectionManager connectionManager(ConnectionData connectionData, MainStompSessionHandler handler) {
-        return new ConnectionManager(connectionData, handler);
+    ConnectionManager connectionManager(ConnectionForm connectionForm,
+                                        ConnectionData connectionData, MainStompSessionHandler handler) {
+        return new ConnectionManager(connectionForm, connectionData, handler);
     }
 
     @Bean
-    ConnectionForm connectionForm(ConnectionManager connectionManager) {
-        return ConnectionFormFactory.getConnectionForm(connectionManager);
+    ConnectionForm connectionForm(ApplicationEventPublisher eventPublisher) {
+        return ConnectionFormFactory.getConnectionForm(eventPublisher);
     }
 }

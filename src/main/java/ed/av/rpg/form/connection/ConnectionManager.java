@@ -1,9 +1,9 @@
 package ed.av.rpg.form.connection;
 
 import ed.av.rpg.auth.connection.ConnectionData;
-import ed.av.rpg.auth.model.dto.ConnectionDto;
 import ed.av.rpg.config.MainStompSessionHandler;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.event.EventListener;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.web.socket.client.WebSocketClient;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
@@ -12,11 +12,13 @@ import org.springframework.web.socket.messaging.WebSocketStompClient;
 @RequiredArgsConstructor
 public class ConnectionManager {
 
+    private final ConnectionForm form;
     private final ConnectionData connectionData;
     private final MainStompSessionHandler handler;
 
-    public void processData(ConnectionDto connectionDto) {
-        var serverUrl = connectionDto.serverUrl();
+    @EventListener
+    public void processData(ConnectionEventDto connectionEventDto) {
+        var serverUrl = connectionEventDto.serverUrl();
         connectionData.setServerUrl(serverUrl);
 
         WebSocketClient webSocketClient = new StandardWebSocketClient();

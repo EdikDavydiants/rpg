@@ -3,6 +3,7 @@ package ed.av.rpg.form.connection;
 import ed.av.rpg.form.common.NamedField;
 import javafx.application.Platform;
 import javafx.scene.text.Font;
+import org.springframework.context.ApplicationEventPublisher;
 
 public class ConnectionFormFactory {
 
@@ -11,7 +12,7 @@ public class ConnectionFormFactory {
 
     private ConnectionFormFactory() {}
 
-    public static ConnectionForm getConnectionForm(ConnectionManager connectionManager) {
+    public static ConnectionForm getConnectionForm(ApplicationEventPublisher eventPublisher) {
 
         NamedField serverUrlField = NamedField.getVertFieldWithListener(
                 "Server URL: ",
@@ -26,7 +27,7 @@ public class ConnectionFormFactory {
                     }
                 });
 
-        var connectionForm = new ConnectionForm(connectionManager, serverUrlField);
+        var connectionForm = new ConnectionForm(eventPublisher, serverUrlField);
         connectionForm.preInitAddAll(
                 serverUrlField.getContainer(),
                 new ConnectionButton(connectionForm));
