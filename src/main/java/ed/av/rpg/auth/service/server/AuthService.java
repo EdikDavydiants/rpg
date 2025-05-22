@@ -50,8 +50,8 @@ public class AuthService {
         messagingTemplate.convertAndSend(COMMON_TOPIC_URI, new SimpleMessageDto(message), headers);
     }
 
-    public void logInUser(String sessionId, String login, String password) {
-        Optional<User> userOpt = userRepository.findByUsername(login);
+    public void logInUser(String sessionId, String username, String password) {
+        Optional<User> userOpt = userRepository.findByUsername(username);
         Map<String, Object> headers = new HashMap<>();
         headers.put(SESSION_ID_HEADER_KEY, sessionId);
 

@@ -16,7 +16,7 @@ public class LogInManager {
     @EventListener
     public void processData(LogInEventDto logInEventDto) {
         LogInDtoRequest logInDtoRequest = LogInDtoRequest.builder()
-                .login(logInEventDto.login())
+                .username(logInEventDto.username())
                 .password(logInEventDto.password())
                 .build();
         StompHeaders headers = HeadersBuilder.builder()

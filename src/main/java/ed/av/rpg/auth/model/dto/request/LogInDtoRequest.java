@@ -13,6 +13,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class LogInDtoRequest implements Serializable {
 
-    private String login;
+    private String username;
     private String password;
 }

@@ -19,7 +19,7 @@ public class AuthController {
 
     @MessageMapping("/login")
     public void logIn(@Header(SESSION_ID_HEADER_KEY) String sessionId, @Payload LogInDtoRequest logInDtoRequest) {
-        authService.logInUser(sessionId, logInDtoRequest.getLogin(), logInDtoRequest.getPassword());
+        authService.logInUser(sessionId, logInDtoRequest.getUsername(), logInDtoRequest.getPassword());
     }
 
     @MessageMapping("/register")
