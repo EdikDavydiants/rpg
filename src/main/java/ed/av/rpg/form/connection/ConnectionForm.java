@@ -1,18 +1,18 @@
 package ed.av.rpg.form.connection;
 
-import ed.av.rpg.auth.model.dto.ConnectionDto;
 import ed.av.rpg.form.common.NamedField;
 import ed.av.rpg.form.common.lazycomponents.containers.LVBox;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 
 @RequiredArgsConstructor
 public class ConnectionForm extends LVBox {
 
-    private final ConnectionManager connectionManager;
+    private final ApplicationEventPublisher eventPublisher;
     private final NamedField serverUrlField;
 
-    public ConnectionDto getConnectionDto() {
-        return new ConnectionDto(getServerUrl());
+    public ConnectionEventDto getConnectionEventDto() {
+        return new ConnectionEventDto(getServerUrl());
     }
 
     public String getServerUrl() {
@@ -20,6 +20,6 @@ public class ConnectionForm extends LVBox {
     }
 
     public void onClick() {
-        connectionManager.processData(getConnectionDto());
+        eventPublisher.publishEvent(getConnectionEventDto());
     }
 }

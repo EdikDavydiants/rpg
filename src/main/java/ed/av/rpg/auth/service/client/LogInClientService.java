@@ -1,10 +1,11 @@
-package ed.av.rpg.service.client;
+package ed.av.rpg.auth.service.client;
 
 import ed.av.rpg.Logger;
 import ed.av.rpg.auth.connection.AuthenticationData;
 import ed.av.rpg.auth.model.dto.Topical;
 import ed.av.rpg.auth.model.dto.response.LogInDtoResponse;
 import ed.av.rpg.config.MainSession;
+import ed.av.rpg.service.client.ClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

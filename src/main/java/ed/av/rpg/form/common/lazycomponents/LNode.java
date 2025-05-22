@@ -4,7 +4,7 @@ import javafx.scene.Node;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import static ed.av.rpg.util.ExceptionMessages.COMPONENT_NOT_INITIALIZED;
+import static ed.av.rpg.util.StringConstants.COMPONENT_NOT_INITIALIZED;
 
 @RequiredArgsConstructor
 public abstract class LNode<T extends Node> {

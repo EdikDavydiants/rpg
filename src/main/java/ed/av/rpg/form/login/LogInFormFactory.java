@@ -13,14 +13,14 @@ public class LogInFormFactory {
 
     public static LogInForm getLogInForm(ApplicationEventPublisher eventPublisher) {
 
-        NamedField loginRaw = NamedField.getHorField("Login: ", NAME_FIELD_SIZE, FONT);
+        NamedField usernameRaw = NamedField.getHorField("Username: ", NAME_FIELD_SIZE, FONT);
         NamedField passwordRaw = NamedField.getHorField("Password: ", NAME_FIELD_SIZE, FONT);
 
-        var loginForm = new LogInForm(loginRaw, passwordRaw, eventPublisher);
-        loginForm.preInitAddAll(
-                loginRaw.getContainer(),
+        var logInForm = new LogInForm(usernameRaw, passwordRaw, eventPublisher);
+        logInForm.preInitAddAll(
+                usernameRaw.getContainer(),
                 passwordRaw.getContainer(),
-                new LogInButton(loginForm));
-        return loginForm;
+                new LogInButton(logInForm));
+        return logInForm;
     }
 }

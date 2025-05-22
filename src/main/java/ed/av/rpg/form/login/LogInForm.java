@@ -8,16 +8,16 @@ import org.springframework.context.ApplicationEventPublisher;
 @RequiredArgsConstructor
 public class LogInForm extends LVBox {
 
-    private final NamedField loginField;
+    private final NamedField usernameField;
     private final NamedField passwordField;
     private final ApplicationEventPublisher eventPublisher;
 
     public LogInEventDto getLogInData() {
-        return new LogInEventDto(getLogin(), getPassword());
+        return new LogInEventDto(getUsername(), getPassword());
     }
 
-    public String getLogin() {
-        return loginField.getValue();
+    public String getUsername() {
+        return usernameField.getValue();
     }
 
     public String getPassword() {
