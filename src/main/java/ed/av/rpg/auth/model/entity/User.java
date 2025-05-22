@@ -1,7 +1,10 @@
 package ed.av.rpg.auth.model.entity;
 
+import ed.av.rpg.auth.connection.UserRole;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,6 +31,10 @@ public class User {
 
     @Column(name = "username", nullable = false, unique = true)
     private String username;
+
+    @Column(name = "role", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private UserRole role = UserRole.PLAYER;
 
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
