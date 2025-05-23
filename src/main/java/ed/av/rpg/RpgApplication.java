@@ -5,6 +5,7 @@ import ed.av.rpg.form.common.lazycomponents.containers.LHBox;
 import ed.av.rpg.form.connection.ConnectionForm;
 import ed.av.rpg.form.login.LogInForm;
 import ed.av.rpg.form.register.RegisterForm;
+import ed.av.rpg.form.regloginwitcher.RegLogInSwitcherForm;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -20,7 +21,6 @@ public class RpgApplication extends Application {
 	private static ConfigurableApplicationContext springContext;
 
 	public static void main(String[] args) {
-
 		springContext = SpringApplication.run(RpgApplication.class, args);
 
 		try {
@@ -39,11 +39,17 @@ public class RpgApplication extends Application {
 		var logInForm = springContext.getBean(LogInForm.class);
 		var connectionForm = springContext.getBean(ConnectionForm.class);
 		var registerForm = springContext.getBean(RegisterForm.class);
-
+		var regLogInSwitcherForm = springContext.getBean(RegLogInSwitcherForm.class);
 
 		LHBox rootForm = new LHBox();
-		rootForm.preInitAddAll(connectionForm, registerForm, logInForm, chat);
+		rootForm.preInitAddAll(regLogInSwitcherForm, connectionForm, registerForm, logInForm, chat);
+
 		rootForm.initialize();
+
+		logInForm.getNode().setVisible(false);
+		registerForm.getNode().setVisible(false);
+		regLogInSwitcherForm.getNode().setVisible(false);
+
 		primaryStage.setScene(new Scene(rootForm.getNode(), 1000, 700));
 		primaryStage.show();
 	}

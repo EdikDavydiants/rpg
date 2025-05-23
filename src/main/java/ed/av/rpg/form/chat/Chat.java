@@ -11,7 +11,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import ed.av.rpg.GeneralUtils;
+import ed.av.rpg.util.GeneralUtils;
 import ed.av.rpg.auth.connection.ConnectionData;
 import ed.av.rpg.enums.MessageType;
 import org.springframework.context.event.EventListener;

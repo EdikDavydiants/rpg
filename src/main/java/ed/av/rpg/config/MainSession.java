@@ -10,9 +10,7 @@ public class MainSession {
     @Setter
     @Getter
     private StompSession session;
-
     private StompSession.Subscription personalSubscription;
-
     @Setter
     private StompFrameHandler handler;
 

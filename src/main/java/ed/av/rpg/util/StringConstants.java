@@ -14,6 +14,8 @@ public final class StringConstants {
     }
 
     public static final class InfoMessages {
+        public static final String CONNECTION_SUCCESS = "Подключено к серверу.";
+        public static final String CONNECTION_FAILED = "Не удалось соединиться с сервером!";
         public static final String AUTHENTICATION_SUCCESS = "Аутентификация прошла успешно.";
         public static final String REGISTRATION_SUCCESS = "Вы зарегистрированы.";
         public static final String WRONG_PASSWORD = "Ошибка аутентификации : неверный пароль!";

@@ -1,6 +1,6 @@
 package ed.av.rpg.config;
 
-import ed.av.rpg.Logger;
+import ed.av.rpg.util.Logger;
 import ed.av.rpg.auth.connection.AuthenticationData;
 import ed.av.rpg.auth.model.dto.Topical;
 import ed.av.rpg.util.ClassTypeExecutor;
@@ -25,7 +25,6 @@ public class MainStompSessionHandler extends StompSessionHandlerAdapter {
 
     @Override
     public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
-        System.out.println("Подключено к серверу.");
         session.subscribe("/topic/common", this);
         mainSession.setSession(session);
         mainSession.setHandler(this);

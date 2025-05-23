@@ -1,6 +1,6 @@
 package ed.av.rpg.form.register;
 
-import ed.av.rpg.Logger;
+import ed.av.rpg.util.Logger;
 import ed.av.rpg.auth.model.dto.request.RegisterDtoRequest;
 import ed.av.rpg.config.MainSession;
 import ed.av.rpg.util.HeadersBuilder;
@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
+
+import static ed.av.rpg.util.StringConstants.Headers.SESSION_ID_HEADER_KEY;
 
 @RequiredArgsConstructor
 public class RegisterManager {
@@ -38,7 +40,7 @@ public class RegisterManager {
                     registerEventDto.password());
             StompHeaders headers = HeadersBuilder.builder()
                     .destination("/app/register")
-                    .addHeader("session-id", session.getSessionId())
+                    .addHeader(SESSION_ID_HEADER_KEY, session.getSessionId())
                     .build();
             session.send(headers, registerDto);
         }
@@ -49,10 +51,10 @@ public class RegisterManager {
     }
 
     public void openForm() {
-        form.getNode().setVisible(true);
+        form.open();
     }
 
     public void closeForm() {
-        form.getNode().setVisible(false);
+        form.close();
     }
 }

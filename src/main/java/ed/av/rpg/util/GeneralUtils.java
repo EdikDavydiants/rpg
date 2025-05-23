@@ -1,4 +1,4 @@
-package ed.av.rpg;
+package ed.av.rpg.util;
 
 public class GeneralUtils {
 
