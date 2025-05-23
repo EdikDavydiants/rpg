@@ -1,7 +1,9 @@
 package ed.av.rpg.auth.service.server;
 
+import ed.av.rpg.auth.connection.UserRole;
 import ed.av.rpg.auth.model.dto.SimpleMessageDto;
 import ed.av.rpg.auth.model.dto.response.LogInDtoResponse;
+import ed.av.rpg.auth.model.dto.response.RegisterDtoResponse;
 import ed.av.rpg.auth.model.entity.User;
 import ed.av.rpg.auth.repository.UserRepository;
 import ed.av.rpg.config.PasswordEncoder;
@@ -24,7 +26,7 @@ import static ed.av.rpg.util.StringConstants.TopicUri.COMMON_TOPIC_URI;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService {
+public class AuthServerService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -32,22 +34,23 @@ public class AuthService {
 
     public void registerNewUser(String sessionId, String username, String password) {
         String passwordHash = passwordEncoder.encode(password);
-        String message;
+        RegisterDtoResponse registerDtoResponse;
         if (userRepository.existsByUsername(username)) {
-            message = LOGIN_ALREADY_EXISTS;
+            registerDtoResponse = new RegisterDtoResponse(false, LOGIN_ALREADY_EXISTS);
         } else {
             User user = User.builder()
                     .username(username)
                     .passwordHash(passwordHash)
                     .isActive(true)
+                    .role(UserRole.PLAYER)
                     .build();
             userRepository.save(user);
-            message = REGISTRATION_SUCCESS;
+            registerDtoResponse = new RegisterDtoResponse(true, REGISTRATION_SUCCESS);
         }
         Map<String, Object> headers = new HashMap<>();
-        headers.put(CLASS_NAME_HEADER_KEY, SimpleMessageDto.class.getSimpleName());
+        headers.put(CLASS_NAME_HEADER_KEY, RegisterDtoResponse.class.getSimpleName());
         headers.put(SESSION_ID_HEADER_KEY, sessionId);
-        messagingTemplate.convertAndSend(COMMON_TOPIC_URI, new SimpleMessageDto(message), headers);
+        messagingTemplate.convertAndSend(COMMON_TOPIC_URI, registerDtoResponse, headers);
     }
 
     public void logInUser(String sessionId, String username, String password) {

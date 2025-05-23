@@ -1,6 +1,6 @@
 package ed.av.rpg.service.client;
 
-import ed.av.rpg.Logger;
+import ed.av.rpg.util.Logger;
 import ed.av.rpg.auth.model.dto.SimpleMessageDto;
 import ed.av.rpg.auth.model.dto.Topical;
 import org.springframework.stereotype.Service;

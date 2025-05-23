@@ -2,7 +2,7 @@ package ed.av.rpg.gamescene;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import ed.av.rpg.GeneralUtils;
+import ed.av.rpg.util.GeneralUtils;
 
 import static java.lang.Math.PI;
 import static java.lang.Math.cos;

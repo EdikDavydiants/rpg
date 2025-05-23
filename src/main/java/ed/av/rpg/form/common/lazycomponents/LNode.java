@@ -1,5 +1,6 @@
 package ed.av.rpg.form.common.lazycomponents;
 
+import javafx.application.Platform;
 import javafx.scene.Node;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -31,5 +32,13 @@ public abstract class LNode<T extends Node> {
         if (node == null) {
             throw new RuntimeException(COMPONENT_NOT_INITIALIZED);
         }
+    }
+
+    public void close() {
+        Platform.runLater(() -> node.setVisible(false));
+    }
+
+    public void open() {
+        Platform.runLater(() -> node.setVisible(true));
     }
 }

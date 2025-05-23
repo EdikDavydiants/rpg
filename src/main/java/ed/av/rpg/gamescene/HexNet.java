@@ -2,9 +2,7 @@ package ed.av.rpg.gamescene;
 
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
-import ed.av.rpg.GeneralUtils;
 import ed.av.rpg.enums.HexDirection;
-import ed.av.rpg.linearalgebra.Point2Df;
 import ed.av.rpg.linearalgebra.Point2Di;
 
 import java.util.ArrayList;
@@ -12,8 +10,7 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static ed.av.rpg.GeneralUtils.HEX_IMG_URL;
-import static ed.av.rpg.GeneralUtils.HIGHLIGHTED_HEX_IMG_URL;
+import static ed.av.rpg.util.GeneralUtils.HIGHLIGHTED_HEX_IMG_URL;
 import static ed.av.rpg.gamescene.Hex.HEIGHT;
 import static ed.av.rpg.gamescene.Hex.WIDTH;
 import static ed.av.rpg.gamescene.Hex.getCenterX;

@@ -7,10 +7,12 @@ import ed.av.rpg.auth.model.dto.request.LogInDtoRequest;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 
+import static ed.av.rpg.util.StringConstants.Headers.SESSION_ID_HEADER_KEY;
+
 @RequiredArgsConstructor
 public class LogInManager {
 
-    private final LogInForm form;
+    private final LogInForm logInForm;
     private final MainSession session;
 
     @EventListener
@@ -21,16 +23,16 @@ public class LogInManager {
                 .build();
         StompHeaders headers = HeadersBuilder.builder()
                 .destination("/app/login")
-                .addHeader("session-id", session.getSession().getSessionId())
+                .addHeader(SESSION_ID_HEADER_KEY, session.getSession().getSessionId())
                 .build();
         session.getSession().send(headers, logInDtoRequest);
     }
 
     public void openForm() {
-        form.getNode().setVisible(true);
+        logInForm.open();
     }
 
     public void closeForm() {
-        form.getNode().setVisible(false);
+        logInForm.close();
     }
 }

@@ -1,6 +1,7 @@
 package ed.av.rpg.auth.service.client;
 
-import ed.av.rpg.Logger;
+import ed.av.rpg.form.login.LogInManager;
+import ed.av.rpg.util.Logger;
 import ed.av.rpg.auth.connection.AuthenticationData;
 import ed.av.rpg.auth.model.dto.Topical;
 import ed.av.rpg.auth.model.dto.response.LogInDtoResponse;
@@ -15,6 +16,7 @@ public class LogInClientService extends ClientService {
 
     private final AuthenticationData authData;
     private final MainSession session;
+    private final LogInManager logInManager;
 
     @Override
     public void processTopicalDto(Topical topical) {
@@ -22,6 +24,7 @@ public class LogInClientService extends ClientService {
         authData.setUsername(logInDtoResponse.getUsername());
         authData.setUsername(logInDtoResponse.getUserId());
         session.switchPersonalSubscription(logInDtoResponse.getUsername());
+        logInManager.closeForm();
         Logger.log(logInDtoResponse.getMessage());
     }
 
